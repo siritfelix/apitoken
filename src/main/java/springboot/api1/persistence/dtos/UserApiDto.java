@@ -15,5 +15,6 @@ public class UserApiDto {
     private String mail;
     private String username;
     private List<String> rol;
+    private String password;
 
 }
