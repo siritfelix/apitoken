@@ -9,7 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import springboot.api1.persistence.entity.UserApi;
-import springboot.api1.persistence.repository.UserRespository;
 import springboot.api1.service.UserService;
 
 @SpringBootApplication

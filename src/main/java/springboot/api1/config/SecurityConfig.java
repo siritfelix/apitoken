@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import springboot.api1.filter.JwtAuthorizationFilter;
 import springboot.api1.service.UserServiceImpl;
 
 @EnableGlobalMethodSecurity(securedEnabled = true)
@@ -41,9 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/h2-console/**", "/login/**").permitAll().anyRequest().authenticated().and()
-                .csrf().disable().httpBasic().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers("/login").permitAll()
+                .anyRequest().authenticated().and().csrf().disable().httpBasic().and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().addFilter(jwtAuthorizationFilter());
+    }
+
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter() throws Exception {
+        return new JwtAuthorizationFilter(this.authenticationManager());
     }
 
 }

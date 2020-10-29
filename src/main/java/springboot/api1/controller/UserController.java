@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,13 +19,13 @@ import springboot.api1.persistence.dtos.UserApiDto;
 import springboot.api1.persistence.entity.UserApi;
 import springboot.api1.service.UserService;
 
-@Secured("ROLE_ADMIN")
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     UserService userService;
-
+    @Secured(value = {"ROLE_ADMIN","ROLE_USER"})
     @GetMapping(value = "/find_user")
     public ResponseEntity<?> login(@RequestParam String username) {
 
@@ -40,8 +39,8 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-    }
-
+    } 
+    @Secured(value = {"ROLE_ADMIN","ROLE_USER"})
     @GetMapping("/findall_users")
     public ResponseEntity<?> getUsers() {
         try {
@@ -51,7 +50,7 @@ public class UserController {
         }
 
     }
-
+    @Secured("ROLE_ADMIN")
     @PostMapping("/create")
     public ResponseEntity<?> PutUsers(@RequestBody @Valid UserApi userApi) {
         try {
